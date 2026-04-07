@@ -1,0 +1,14 @@
+{
+  "name": "My Bookings Store",
+  "bookings": [
+    {
+      "clientName": "Camilo",
+      "storeName": "My Bookings Store",
+      "startDate": "2020-11-19T11:00:00.000Z",
+      "endDate": "2022-11-25T11:00:00.000Z",
+      "notes": "I just need this to work",
+      "id": "59f7fc70-0d47-483c-bbce-bd2b535adff6",
+      "createdAt": "2026-04-07T21:10:01.050Z"
+    }
+  ]
+}
