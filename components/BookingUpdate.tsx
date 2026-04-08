@@ -19,7 +19,6 @@ export default function BookingUpdate({ booking, onClose, onUpdated }: Props) {
 		endDate: toDateTimeLocal(booking.endDate),
 		notes: booking.notes ?? "",
 	})
-	const [error, setError] = useState<string | null>(null)
 	const [loading, setLoading] = useState(false)
 	const [mounted, setMounted] = useState(false)
 
@@ -41,7 +40,6 @@ export default function BookingUpdate({ booking, onClose, onUpdated }: Props) {
 
 	const handleSubmit = async (e: React.FormEvent) => {
 		e.preventDefault()
-		setError(null)
 		setLoading(true)
 
 		const res = await fetch(`/api/bookings/${booking.id}`, {
@@ -59,7 +57,6 @@ export default function BookingUpdate({ booking, onClose, onUpdated }: Props) {
 		setLoading(false)
 
 		if (!res.ok) {
-			setError(data.error ?? "Something went wrong.")
             toast.error(data.error ?? "Something went wrong.")
 		} else {
             toast.success("Booking updated successfully.");
@@ -125,8 +122,6 @@ export default function BookingUpdate({ booking, onClose, onUpdated }: Props) {
 							rows={3}
 						/>
 					</label>
-
-					{error && <p className="error">{error}</p>}
 
 					<div className="modal-actions">
 						<button type="button" className="btn-secondary" onClick={onClose}>

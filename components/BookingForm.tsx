@@ -16,7 +16,6 @@ export default function BookingForm({ storeName, onBooked }: Props) {
 		endDate: "",
 		notes: "",
 	})
-	const [error, setError] = useState<string | null>(null)
 	const [loading, setLoading] = useState(false)
 
 	const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) =>
@@ -24,7 +23,6 @@ export default function BookingForm({ storeName, onBooked }: Props) {
 
 	const handleSubmit = async (e: React.FormEvent) => {
 		e.preventDefault()
-		setError(null)
 		setLoading(true)
 
 		const res = await fetch("/api/bookings", {
@@ -44,7 +42,6 @@ export default function BookingForm({ storeName, onBooked }: Props) {
 
 		if (!res.ok) {
             toast.error(data.error ?? "Something went wrong.")
-			setError(data.error ?? "Something went wrong.")
 		} else {
             toast.success("Booking created successfully.");
 			onBooked(data as Booking)
@@ -100,8 +97,6 @@ export default function BookingForm({ storeName, onBooked }: Props) {
 					rows={3}
 				/>
 			</label>
-
-			{error && <p className="error">{error}</p>}
 
 			<button type="submit" disabled={loading}>
 				{loading ? "Booking…" : "Confirm Booking"}
