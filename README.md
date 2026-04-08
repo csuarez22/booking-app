@@ -1,36 +1,75 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Store Booking Manager
+
+A lightweight appointment booking app built with Next.js 15 and TypeScript. No database required — bookings are persisted in a local JSON file that is created automatically on first run.
+
+## Features
+
+- Create, edit, and cancel bookings
+- Automatic overlap detection — no two bookings can share the same time slot
+- Filter bookings by date range
+- Toast notifications on create, update, and delete
+- Bookings sorted chronologically at all times
+
+## Tech Stack
+
+- **Next.js 15** (App Router)
+- **TypeScript**
+- **Sonner** for toast notifications
+- JSON file for persistence (no database)
 
 ## Getting Started
 
-First, run the development server:
-
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000) in your browser.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+The `data/store.json` file is created automatically on the first request — no setup needed.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## API Reference
 
-## Learn More
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| GET | `/api/bookings` | Returns the store name and all bookings sorted by start date |
+| GET | `/api/bookings/:id` | Returns existing booking |
+| POST | `/api/bookings` | Creates a new booking |
+| PATCH | `/api/bookings/:id` | Updates an existing booking |
+| DELETE | `/api/bookings/:id` | Deletes a booking |
 
-To learn more about Next.js, take a look at the following resources:
+### Booking shape
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```ts
+{
+  id: string;          // Auto-generated UUID
+  clientName: string;
+  storeName: string;
+  startDate: string;   // ISO 8601
+  endDate: string;     // ISO 8601
+  notes?: string | null;
+  createdAt: string;   // ISO 8601
+}
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### POST / PATCH body
 
-## Deploy on Vercel
+```json
+{
+  "clientName": "Jane Doe",
+  "storeName": "My Bookings Store",
+  "startDate": "2026-04-10T10:00:00.000Z",
+  "endDate": "2026-04-10T11:00:00.000Z",
+  "notes": "Bring the invoice"
+}
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+**Overlap detection** checks whether any existing booking shares time with the requested slot using the condition `newStart < existingEnd && newEnd > existingStart`, which correctly catches all overlap cases including partial overlaps and one booking fully containing another.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+**State is lifted** to `page.tsx` so that `BookingList` and `BookingUpdate` stay simple — they receive data and callbacks as props and don't need to talk to each other directly.
+
+## Notes
+
+- `data/store.json` is gitignored so bookings are never committed to source control.
+- Date formatting uses local timezone. If the app is deployed, server and client timezones may differ.
+- For production use, JSON file can be replaced with a proper database such as PostgreSQL via Prisma.
