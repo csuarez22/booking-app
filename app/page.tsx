@@ -4,46 +4,50 @@ import { useEffect, useState } from "react"
 import BookingForm from "@/components/BookingForm"
 import BookingList from "@/components/BookingList"
 import { Booking } from "@/types"
+import BookingUpdate from "@/components/BookingUpdate"
 
 export default function HomePage() {
 	const [storeName, setStoreName] = useState("My Bookings Store")
 	const [bookings, setBookings] = useState<Booking[]>([])
 	const [loading, setLoading] = useState(true)
 
+	//editing controls visibility of modal BookingUpdate. When null, modal is closed. When set to a booking, modal opens with that booking's data
+	const [editing, setEditing] = useState<Booking | null>(null)
+
 	useEffect(() => {
+		handleLoading()
+	}, [])
+
+	const handleLoading = () => {
 		fetch("/api/bookings")
 			.then((r) => r.json())
 			.then((data) => {
 				setStoreName(data.storeName)
-				setBookings(data.bookings)
+				setBookings(
+					data.bookings.sort( //sort the bookings by date when loading them
+						(a: Booking, b: Booking) => new Date(a.startDate).getTime() - new Date(b.startDate).getTime(),
+					),
+				)
 			})
 			.finally(() => setLoading(false))
-	}, [])
+	}
 
 	const handleBooked = (booking: Booking) => {
 		setBookings((prev) =>
 			[...prev, booking].sort(
-				(a, b) => new Date(a.startDate).getTime() - new Date(b.startDate).getTime(),
+				(a: Booking, b: Booking) => new Date(a.startDate).getTime() - new Date(b.startDate).getTime(),
 			),
 		)
 	}
 
 	const handleDelete = async (id: string) => {
-		const res = await fetch(
-            `/api/bookings/${id}`, 
-            { method: "DELETE" }
-        )
-        
-		if (res.ok) 
-            setBookings((prev) => prev.filter((b) => b.id !== id))
+		const res = await fetch(`/api/bookings/${id}`, { method: "DELETE" })
+
+		if (res.ok) setBookings((prev) => prev.filter((b) => b.id !== id))
 	}
 
 	const handleUpdated = (updated: Booking) => {
-		setBookings((prev) =>
-			prev
-				.map((b) => (b.id === updated.id ? updated : b))
-				.sort((a, b) => new Date(a.startDate).getTime() - new Date(b.startDate).getTime()),
-		)
+		handleLoading() //reload the bookings
 	}
 
 	return (
@@ -60,7 +64,10 @@ export default function HomePage() {
 
 			<div className="content">
 				<section className="panel">
-					<BookingForm storeName={storeName} onBooked={handleBooked} />
+					<BookingForm 
+                        storeName={storeName} 
+                        onBooked={handleBooked} 
+                    />
 				</section>
 
 				<section className="panel">
@@ -71,10 +78,25 @@ export default function HomePage() {
 					{loading ? (
 						<p className="loading">Loading bookings…</p>
 					) : (
-						<BookingList bookings={bookings} onDelete={handleDelete} onUpdated={handleUpdated} />
+						<BookingList
+							bookings={bookings}
+							onDelete={handleDelete}
+							onEdit={(booking) => setEditing(booking)}
+						/>
 					)}
 				</section>
 			</div>
+
+			{editing && (
+				<BookingUpdate
+					booking={editing}
+					onClose={() => setEditing(null)}
+					onUpdated={(updated) => {
+						handleUpdated(updated)
+						setEditing(null)
+					}}
+				/>
+			)}
 		</main>
 	)
 }

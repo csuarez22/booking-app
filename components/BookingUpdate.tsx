@@ -83,11 +83,13 @@ export default function BookingUpdate({ booking, onClose, onUpdated }: Props) {
 				<form onSubmit={handleSubmit} className="booking-form">
 					<label>
 						Client Name
+                        {/* we want to show the client name but not allow editing */}
 						<input
 							name="clientName"
 							value={form.clientName}
 							onChange={handleChange}
 							required
+                            disabled 
 						/>
 					</label>
 

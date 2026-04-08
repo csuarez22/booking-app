@@ -7,7 +7,7 @@ import BookingUpdate from "./BookingUpdate"
 interface Props {
 	bookings: Booking[]
 	onDelete: (id: string) => void
-	onUpdated: (updated: Booking) => void
+	onEdit: (booking: Booking) => void
 }
 
 function formatDate(iso: string) {
@@ -17,9 +17,7 @@ function formatDate(iso: string) {
 	})
 }
 
-export default function BookingList({ bookings, onDelete, onUpdated }: Props) {
-	const [editing, setEditing] = useState<Booking | null>(null)
-
+export default function BookingList({ bookings, onDelete, onEdit }: Props) {
 	if (bookings.length === 0) {
 		return (
 			<div className="empty-state">
@@ -39,7 +37,7 @@ export default function BookingList({ bookings, onDelete, onUpdated }: Props) {
 							<div className="booking-actions">
 								<button
 									className="edit-btn"
-									onClick={() => setEditing(b)}
+									onClick={() => onEdit(b)}
 									title="Edit booking"
 								>
 									✎
@@ -63,17 +61,6 @@ export default function BookingList({ bookings, onDelete, onUpdated }: Props) {
 					</li>
 				))}
 			</ul>
-
-			{editing && (
-				<BookingUpdate
-					booking={editing}
-					onClose={() => setEditing(null)}
-					onUpdated={(updated) => {
-						onUpdated(updated)
-						setEditing(null)
-					}}
-				/>
-			)}
 		</>
 	)
 }

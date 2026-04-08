@@ -14,7 +14,7 @@ export async function GET(_: Request, { params }: { params: Promise<{ id: string
 }
 
 export async function DELETE(_: Request, { params }: { params: Promise<{ id: string }> }) {
-	const store = readStore()
+	const store = readStore() //json file with store name and current bookings
 	const removed = removeBookingFromStore(store, (await params).id)
 
 	if (!removed) {
@@ -28,9 +28,9 @@ export async function DELETE(_: Request, { params }: { params: Promise<{ id: str
 export async function PATCH(req: Request, { params }: { params: Promise<{ id: string }> }) {
 	const body = (await req.json()) as Partial<NewBooking>
 
-	if (!body.clientName || !body.storeName || !body.startDate || !body.endDate) {
+	if (!body.clientName || !body.startDate || !body.endDate) {
 		return NextResponse.json(
-			{ error: "Client Name, Store Name, Start Date, and End Date are required." },
+			{ error: "Client Name, Start Date, and End Date are required." },
 			{ status: 400 },
 		)
 	}
@@ -42,9 +42,9 @@ export async function PATCH(req: Request, { params }: { params: Promise<{ id: st
 	const store = readStore()
 
 	try {
-		const booking = addBookingToStore(store, body as NewBooking)
-		//we remove the booking and then add it again with the new data
+        //we remove the booking and then add it again with the new data
 		removeBookingFromStore(store, (await params).id)
+		const booking = addBookingToStore(store, body as NewBooking, (await params).id)
 		writeStore(store)
 		return NextResponse.json(booking, { status: 201 })
 	} catch (err: unknown) {

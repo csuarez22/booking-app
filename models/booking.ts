@@ -14,7 +14,7 @@ export function hasDateOverlap(
 	existing: Booking[], //current bookings of the store
 	startDate: string,
 	endDate: string,
-	excludeId?: string, //id of the booking we're about to add or update. Not used now, but could be used later if we transition to database
+	excludeId?: string, //id of the booking we're about to add or update, so we don't compare it with itself
 ): boolean {
 	const newStart = new Date(startDate).getTime()
 	const newEnd = new Date(endDate).getTime()

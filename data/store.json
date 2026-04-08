@@ -2,13 +2,29 @@
   "name": "My Bookings Store",
   "bookings": [
     {
-      "clientName": "Camilo",
+      "clientName": "Juana",
+      "startDate": "2020-01-21T17:08:00.000Z",
+      "endDate": "2020-01-25T18:08:00.000Z",
+      "notes": "Please please asdasd",
+      "id": "bacaa49f-0e2c-4219-9e25-0f90c6355eae",
+      "createdAt": "2026-04-08T00:30:02.589Z"
+    },
+    {
+      "clientName": "Abril",
       "storeName": "My Bookings Store",
-      "startDate": "2020-11-19T11:00:00.000Z",
-      "endDate": "2022-11-25T11:00:00.000Z",
+      "startDate": "2024-04-05T11:00:00.000Z",
+      "endDate": "2024-04-12T11:00:00.000Z",
+      "notes": "We're staying for a long time",
+      "id": "f59569ba-05c8-4add-b2c6-89eddd8e9906",
+      "createdAt": "2026-04-08T00:31:01.410Z"
+    },
+    {
+      "clientName": "Camilo",
+      "startDate": "2022-11-20T05:00:00.000Z",
+      "endDate": "2024-03-05T11:00:00.000Z",
       "notes": "I just need this to work",
-      "id": "59f7fc70-0d47-483c-bbce-bd2b535adff6",
-      "createdAt": "2026-04-07T21:10:01.050Z"
+      "id": "27d709cc-552c-44f5-a3d6-ea1c2b0f0fd3",
+      "createdAt": "2026-04-08T00:33:15.401Z"
     }
   ]
 }
