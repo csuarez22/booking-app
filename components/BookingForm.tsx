@@ -2,6 +2,7 @@
 
 import { useState } from "react"
 import { Booking } from "@/types"
+import { toast } from "sonner"
 
 interface Props {
 	storeName: string
@@ -42,8 +43,10 @@ export default function BookingForm({ storeName, onBooked }: Props) {
 		setLoading(false)
 
 		if (!res.ok) {
+            toast.error(data.error ?? "Something went wrong.")
 			setError(data.error ?? "Something went wrong.")
 		} else {
+            toast.success("Booking created successfully.");
 			onBooked(data as Booking)
 			setForm({ clientName: "", startDate: "", endDate: "", notes: "" })
 		}

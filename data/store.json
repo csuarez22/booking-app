@@ -2,14 +2,6 @@
   "name": "My Bookings Store",
   "bookings": [
     {
-      "clientName": "Juana",
-      "startDate": "2020-01-21T17:08:00.000Z",
-      "endDate": "2020-01-25T18:08:00.000Z",
-      "notes": "Please please asdasd",
-      "id": "bacaa49f-0e2c-4219-9e25-0f90c6355eae",
-      "createdAt": "2026-04-08T00:30:02.589Z"
-    },
-    {
       "clientName": "Abril",
       "storeName": "My Bookings Store",
       "startDate": "2024-04-05T11:00:00.000Z",
@@ -19,12 +11,21 @@
       "createdAt": "2026-04-08T00:31:01.410Z"
     },
     {
+      "clientName": "we add another one",
+      "storeName": "My Bookings Store",
+      "startDate": "2027-04-09T11:00:00.000Z",
+      "endDate": "2028-03-06T11:00:00.000Z",
+      "notes": "asd",
+      "id": "b06304cd-f9de-489a-970a-31eb72565256",
+      "createdAt": "2026-04-08T00:50:25.156Z"
+    },
+    {
       "clientName": "Camilo",
       "startDate": "2022-11-20T05:00:00.000Z",
       "endDate": "2024-03-05T11:00:00.000Z",
-      "notes": "I just need this to work",
-      "id": "27d709cc-552c-44f5-a3d6-ea1c2b0f0fd3",
-      "createdAt": "2026-04-08T00:33:15.401Z"
+      "notes": "I just need this to workd",
+      "id": "0460d3ee-149a-41bd-bd2b-d658bfc8304e",
+      "createdAt": "2026-04-08T01:10:32.323Z"
     }
   ]
 }

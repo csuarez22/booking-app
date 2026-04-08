@@ -3,15 +3,13 @@
 import { useState, useEffect } from "react"
 import { createPortal } from "react-dom"
 import { Booking } from "@/types"
+import { toDateTimeLocal } from "@/app/auxFunctions/functions"
+import { toast } from "sonner"
 
 interface Props {
 	booking: Booking
 	onClose: () => void
 	onUpdated: (updated: Booking) => void
-}
-
-function toDateTimeLocal(iso: string): string {
-	return new Date(iso).toISOString().slice(0, 16)
 }
 
 export default function BookingUpdate({ booking, onClose, onUpdated }: Props) {
@@ -62,7 +60,9 @@ export default function BookingUpdate({ booking, onClose, onUpdated }: Props) {
 
 		if (!res.ok) {
 			setError(data.error ?? "Something went wrong.")
+            toast.error(data.error ?? "Something went wrong.")
 		} else {
+            toast.success("Booking updated successfully.");
 			onUpdated(data as Booking)
 			onClose()
 		}
@@ -83,13 +83,13 @@ export default function BookingUpdate({ booking, onClose, onUpdated }: Props) {
 				<form onSubmit={handleSubmit} className="booking-form">
 					<label>
 						Client Name
-                        {/* we want to show the client name but not allow editing */}
+						{/* we want to show the client name but not allow editing */}
 						<input
 							name="clientName"
 							value={form.clientName}
 							onChange={handleChange}
 							required
-                            disabled 
+							disabled
 						/>
 					</label>
 

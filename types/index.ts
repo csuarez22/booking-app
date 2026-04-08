@@ -2,8 +2,8 @@ export interface Booking {
 	id: string
 	clientName: string
 	storeName: string
-	startDate: string // ISO 8601
-	endDate: string // ISO 8601
+	startDate: string 
+	endDate: string 
 	notes?: string | null
 	createdAt: string
 }

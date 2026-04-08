@@ -5,6 +5,7 @@ import BookingForm from "@/components/BookingForm"
 import BookingList from "@/components/BookingList"
 import { Booking } from "@/types"
 import BookingUpdate from "@/components/BookingUpdate"
+import { toast } from "sonner"
 
 export default function HomePage() {
 	const [storeName, setStoreName] = useState("My Bookings Store")
@@ -19,6 +20,7 @@ export default function HomePage() {
 	}, [])
 
 	const handleLoading = () => {
+        setLoading(true)
 		fetch("/api/bookings")
 			.then((r) => r.json())
 			.then((data) => {
@@ -41,7 +43,20 @@ export default function HomePage() {
 	}
 
 	const handleDelete = async (id: string) => {
-		const res = await fetch(`/api/bookings/${id}`, { method: "DELETE" })
+        setLoading(true)
+		const res = await fetch(
+            `/api/bookings/${id}`, 
+            { method: "DELETE" }
+        )
+
+        const data = await res.json()
+		setLoading(false)
+
+		if (!res.ok) {
+            toast.error(data.error ?? "Something went wrong.")
+		} else {
+            toast.success("Booking deleted successfully.");
+		}
 
 		if (res.ok) setBookings((prev) => prev.filter((b) => b.id !== id))
 	}

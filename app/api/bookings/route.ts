@@ -4,9 +4,10 @@ import { addBookingToStore, getBookingsFromStore } from "@/models/store"
 import { NewBooking } from "@/types"
 
 export async function GET() {
-	const store = readStore()
+    const store = readStore()
+    
 	return NextResponse.json({
-		storeName: store.name,
+        storeName: store.name,
 		bookings: getBookingsFromStore(store),
 	})
 }
