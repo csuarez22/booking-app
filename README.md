@@ -1,6 +1,8 @@
 # Store Booking Manager
 
-A lightweight appointment booking app built with Next.js 15 and TypeScript. No database required — bookings are persisted in a local JSON file that is created automatically on first run.
+A lightweight appointment booking pp built with Next.js 15 and TypeScript. No database required — bookings are persisted in a local JSON file that is created automatically on first run.
+
+As this was my first venture with NextJS, Claude Code was heavily used in the creation of this project, mostly to generate the components' HTML and styles, as well as some auxiliary functions. Copilot was also used lightly to fix minor issues. The rest was mostly approached by reading the NextJS and React documentations, and figuring things out as I went.
 
 ## Features
 
@@ -25,8 +27,6 @@ npm run dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) in your browser.
-
-The `data/store.json` file is created automatically on the first request — no setup needed.
 
 ## API Reference
 
@@ -66,10 +66,10 @@ The `data/store.json` file is created automatically on the first request — no 
 
 **Overlap detection** checks whether any existing booking shares time with the requested slot using the condition `newStart < existingEnd && newEnd > existingStart`, which correctly catches all overlap cases including partial overlaps and one booking fully containing another.
 
-**State is lifted** to `page.tsx` so that `BookingList` and `BookingUpdate` stay simple — they receive data and callbacks as props and don't need to talk to each other directly.
+**State is lifted** to `page.tsx` so that `BookingForm`, `BookingList` and `BookingUpdate` stay simple — they receive data and callbacks as props and don't need to talk to each other directly.
 
 ## Notes
 
 - `data/store.json` is gitignored so bookings are never committed to source control.
 - Date formatting uses local timezone. If the app is deployed, server and client timezones may differ.
-- For production use, JSON file can be replaced with a proper database such as PostgreSQL via Prisma.
+- For production use, the JSON file approach should be replaced with a proper database such as PostgreSQL via Prisma.
